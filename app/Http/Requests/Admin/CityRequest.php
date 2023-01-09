@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CountryRequest extends FormRequest
+class CityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,8 @@ class CountryRequest extends FormRequest
         return [
             'en'=>"required|min:4|max:255",
             'ar'=>"required|min:4|max:255",
-            'code' => 'required|min:2|max:255'
+            'code' => 'required|min:2|max:255',
+            'country_id' => 'required|exists:countries,id',
         ];
     }
 
@@ -41,6 +42,8 @@ class CountryRequest extends FormRequest
         return [
             'en' => 'english name',
             'ar' => 'arabic name',
+            'country_id' => 'country',
+
         ];
     }
 
@@ -52,7 +55,7 @@ class CountryRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+           
         ];
     }
 }

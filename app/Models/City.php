@@ -8,6 +8,7 @@ use Spatie\Translatable\HasTranslations;
 
 class City extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory, HasTranslations;
     protected $guarded=[];
     public $translatable = ['name'];
