@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\City;
-use App\Http\Requests\Admin\CityRequest;
+use App\Http\Requests\Admin\CategoryRequest;
+use App\Http\Requests\CategoryRequest\Admin;
+use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class CityCrudController
+ * Class CategoryCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class CityCrudController extends CrudController
+class CategoryCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,9 +28,9 @@ class CityCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\City::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/city');
-        CRUD::setEntityNameStrings('city', 'cities');
+        CRUD::setModel(\App\Models\Category::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
+        CRUD::setEntityNameStrings('category', 'categories');
     }
 
     /**
@@ -41,24 +42,22 @@ class CityCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->getColumns();
-
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
+
     protected function setupShowOperation()
     {
         $this->getColumns();
-
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
-
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -67,28 +66,17 @@ class CityCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CityRequest::class);
+        CRUD::setValidation(CategoryRequest::class);
 
         CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
         CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
-        CRUD::field('code');
-        CRUD::field('country_id');
-        $this->crud->addField(
-            [  // Select
-                'label'     => "Country",
-                'type'      => 'select',
-                'name'      => 'country_id', // the db column for the foreign key
-
-                'entity'    => 'country',
-
-                // optional - manually specify the related model and attribute
-                'model'     => "App\Models\Country", // related model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-
-                'options'   => (function ($query) {
-                    return $query->latest()->get();
-                }), //  you can use this to filter the results show in the select
+        $this->crud->addField([   // Upload
+            'name'      => 'image',
+            'label'     => 'Image',
+            'type'      => 'upload',
+            'upload'=>true
             ]);
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -104,52 +92,41 @@ class CityCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
+        $category = Category::findOrFail(\Route::current()->parameter('id'));
+        CRUD::setValidation(CategoryRequest::class);
 
-        $city = City::findOrFail(\Route::current()->parameter('id'));
-
-        CRUD::setValidation(CityRequest::class);
-
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$city->getTranslation('name','en')]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$city->getTranslation('name','ar')]);
-        CRUD::field('code');
-        CRUD::field('country_id');
-        $this->crud->addField(
-            [  // Select
-                'label'     => "Country",
-                'type'      => 'select',
-                'name'      => 'country_id', // the db column for the foreign key
-
-                'entity'    => 'country',
-
-                // optional - manually specify the related model and attribute
-                'model'     => "App\Models\Country", // related model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-
-                'options'   => (function ($query) {
-                    return $query->latest()->get();
-                }), //  you can use this to filter the results show in the select
+        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$category->getTranslation('name','en')]);
+        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$category->getTranslation('name','ar')]);
+        $this->crud->addField([
+            'name'      => 'image',
+            'label'     => 'Image',
+            'type'      => 'upload',
+            'upload'=>true,
+            'value'=>''
             ]);
     }
 
     public function getColumns()
     {
         CRUD::addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
-        'function' => function(City $entry) {
+        'function' => function(Category $entry) {
             return $entry->getTranslation('name','en');
         }]);
         CRUD::addColumn(['name' => 'name_ar', 'label'=>'English Name','type'     => 'closure',
-        'function' => function(City $entry) {
+        'function' => function(Category $entry) {
             return $entry->getTranslation('name','ar');
         }]);
 
-        CRUD::addColumn(['country' => 'name', 'label'=>'Country','type'     => 'closure',
-        'function' => function(City $entry) {
-            return $entry->country->name;
-        }]);
-
-       CRUD::column('code');
+        CRUD::addColumn(['name'=>'image','type'=>'image']);
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
+    }
+    protected function setupDeleteOperation()
+    {
+        $category = Category::findOrFail(\Route::current()->parameter('id'));
+        if ($category) {
+            unlink($category->image);
+        }
     }
 }

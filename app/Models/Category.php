@@ -8,6 +8,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory, HasTranslations;
     protected $guarded=[];
     public $translatable = ['name'];
@@ -17,8 +18,8 @@ class Category extends Model
             $file = $value;
             $extension = $file->getClientOriginalExtension(); // getting image extension
             $filename =time().mt_rand(1000,9999).'.'.$extension;
-            $file->move(public_path('img/'), $filename);
-            $this->attributes['image'] =  'img/'.$filename;
+            $file->move(public_path('img/category/'), $filename);
+            $this->attributes['image'] =  'img/category/'.$filename;
         }
     }
 
