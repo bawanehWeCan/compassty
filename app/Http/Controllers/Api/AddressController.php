@@ -100,7 +100,7 @@ class AddressController extends ApiController
                 $address->city_id = $request->city_id;
                 $address->user_id = $request->user_id;
                 $address->save();
-
+                if( !empty( $request->images ) ){
                 foreach ($request->images as $image) {
                     # code...
 
@@ -110,7 +110,7 @@ class AddressController extends ApiController
                     $i->company_id = 0;
                     $i->save();
 
-                }
+                }}
 
 
 
