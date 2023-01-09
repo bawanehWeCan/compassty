@@ -3,17 +3,20 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 // use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens;
     use Notifiable;
     // use HasRoles;
+
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-         'phone'
+         'phone',
+         'type',
     ];
 
     /**
@@ -53,5 +57,13 @@ class User extends Authenticatable
 
     public function recent(){
         return $this->morphToMany(Address::class,'addressable');
+    }
+
+
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => bcrypt($value),
+        );
     }
 }

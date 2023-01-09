@@ -9,6 +9,7 @@ use Spatie\Translatable\HasTranslations;
 class Country extends Model
 {
     use HasFactory, HasTranslations;
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $guarded=[];
     public $translatable = ['name'];
 
