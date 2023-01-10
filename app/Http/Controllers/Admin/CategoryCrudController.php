@@ -17,7 +17,9 @@ class CategoryCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation{
+        update as traitUpdate;
+    }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -57,6 +59,12 @@ class CategoryCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
+    }
+
+    public function update()
+    {
+        $this->insertDataWithValidation('update');
+        return $this->traitUpdate();
     }
     /**
      * Define what happens when the Create operation is loaded.
@@ -121,6 +129,22 @@ class CategoryCrudController extends CrudController
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
+    }
+    public function insertDataWithValidation($update=null)
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+
+        /** @var \Illuminate\Http\Request $request */
+        $request = $this->crud->getRequest();
+        if ($update == 'update') {
+            $category = Category::findOrFail(\Route::current()->parameter('id'));
+            if($request->has('image')){
+                unlink($category->image);
+            }
+        }
+        // Encrypt password if specified.
+        $this->crud->setRequest($request);
+        $this->crud->unsetValidation(); // Validation has already been run
     }
     protected function setupDeleteOperation()
     {

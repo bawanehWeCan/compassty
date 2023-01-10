@@ -81,7 +81,7 @@ class IntroductionCrudController extends CrudController
 
     public function update()
     {
-        $this->insertDataWithValidation();
+        $this->insertDataWithValidation('update');
         return $this->traitUpdate();
     }
     /**
@@ -163,13 +163,18 @@ class IntroductionCrudController extends CrudController
     }
 
 
-    public function insertDataWithValidation()
+    public function insertDataWithValidation($update=null)
     {
         $this->crud->setRequest($this->crud->validateRequest());
 
         /** @var \Illuminate\Http\Request $request */
         $request = $this->crud->getRequest();
-
+        if ($update == 'update') {
+            $introduction = Introduction::findOrFail(\Route::current()->parameter('id'));
+            if($request->has('image')){
+                unlink($introduction->image);
+            }
+        }
         // Encrypt password if specified.
         $this->setInput($request, 'body', 'body_en', 'body_ar');
         $this->crud->setRequest($request);
