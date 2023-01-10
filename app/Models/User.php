@@ -7,6 +7,8 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
+
 // use Spatie\Permission\Traits\HasRoles;
 
 
@@ -63,7 +65,7 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => bcrypt($value),
+            set: fn ($value) => Hash::make($value),
         );
     }
 }
