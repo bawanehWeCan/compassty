@@ -62,10 +62,10 @@ class User extends Authenticatable
     }
 
 
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => Hash::make($value),
-        );
-    }
+    // protected function password(): Attribute
+    // {
+    //     return Attribute::make(
+    //         set: fn ($value) => Hash::make($value),
+    //     );
+    // }
 }
