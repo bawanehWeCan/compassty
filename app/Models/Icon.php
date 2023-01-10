@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Icon extends Model
 {
@@ -20,4 +21,6 @@ class Icon extends Model
             $this->attributes['icon'] =  'icon/'.$filename;
         }
     }
+
+   
 }

@@ -8,3 +8,7 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('category') }}"><i class="nav-icon la la-th-list"></i> Categories</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('icon') }}"><i class="nav-icon la la-th-list"></i> Icons</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('company') }}"><i class="nav-icon la la-th-list"></i> Companies</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('company-images') }}"><i class="nav-icon la la-th-list"></i> Company images</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('address') }}"><i class="nav-icon la la-th-list"></i> Addresses</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('address-images') }}"><i class="nav-icon la la-th-list"></i> Address images</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('code') }}"><i class="nav-icon la la-th-list"></i> Codes</a></li>

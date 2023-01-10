@@ -38,7 +38,8 @@ class IconCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::addColumn(['name'=>'icon','type','image']);
+        CRUD::column('id');
+        CRUD::addColumn(['name'=>'icon','type'=>'image']);
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
