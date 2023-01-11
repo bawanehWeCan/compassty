@@ -40,7 +40,7 @@ class CompanyImagesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        // $this->crud->addClause('where', 'company_id', '!=', 0);
+        $this->crud->addClause('where', 'company_id', '!=', 0);
 
         $this->crud->addColumn([
             'name'  => 'image',

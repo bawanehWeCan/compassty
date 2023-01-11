@@ -40,7 +40,7 @@ class AddressImagesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        // $this->crud->addClause('where', 'address_id', '!=', 0);
+        $this->crud->addClause('where', 'address_id', '!=', 0);
         $this->crud->addColumn([
             'name'  => 'image',
             'label' => 'Image',
