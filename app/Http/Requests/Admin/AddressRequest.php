@@ -27,7 +27,7 @@ class AddressRequest extends FormRequest
         return [
             'icon_id'=>'required|exists:icons,id',
             'name'=>'required|min:5|max:255',
-            'phone_number'=> 'required|min:9|unique:addresses,phone_number,'.$this->id,
+            'phone_number'=> 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:addresses,phone_number,'.$this->id,
             'lat'=>'required|numeric',
             'long'=>'required|numeric',
             'region'=>'required|min:5|max:255',
