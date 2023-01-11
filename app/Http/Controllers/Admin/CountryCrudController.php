@@ -104,7 +104,7 @@ class CountryCrudController extends CrudController
         'function' => function(Country $entry) {
             return $entry->getTranslation('name','en');
         }]);
-        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'Arabic Name','type'     => 'closure',
         'function' => function(Country $entry) {
             return $entry->getTranslation('name','ar');
         }]);

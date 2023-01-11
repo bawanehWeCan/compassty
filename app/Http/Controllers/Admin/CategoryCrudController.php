@@ -119,7 +119,7 @@ class CategoryCrudController extends CrudController
         'function' => function(Category $entry) {
             return $entry->getTranslation('name','en');
         }]);
-        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'Arabic Name','type'     => 'closure',
         'function' => function(Category $entry) {
             return $entry->getTranslation('name','ar');
         }]);
