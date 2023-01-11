@@ -27,9 +27,9 @@ class AddressImagesCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Image::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/address-images');
-        CRUD::setEntityNameStrings('address images', 'address images');
+        $this->crud->setModel(\App\Models\Image::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/address-images');
+        $this->crud->setEntityNameStrings('address images', 'address images');
     }
 
     /**
@@ -58,8 +58,8 @@ class AddressImagesCrudController extends CrudController
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -71,15 +71,16 @@ class AddressImagesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $this->crud->setValidation(AddressImagesRequest::class);
+
         $this->blogFields();
-        CRUD::setValidation(AddressImagesRequest::class);
 
 
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 

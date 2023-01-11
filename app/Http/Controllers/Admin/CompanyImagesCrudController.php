@@ -27,9 +27,9 @@ class CompanyImagesCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Image::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/company-images');
-        CRUD::setEntityNameStrings('company images', 'company images');
+        $this->crud->setModel(\App\Models\Image::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/company-images');
+        $this->crud->setEntityNameStrings('company images', 'company images');
     }
 
     /**
@@ -59,8 +59,8 @@ class CompanyImagesCrudController extends CrudController
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -72,15 +72,15 @@ class CompanyImagesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CompanyImagesRequest::class);
+        $this->crud->setValidation(CompanyImagesRequest::class);
         $this->blogFields();
 
 
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 

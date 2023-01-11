@@ -27,9 +27,9 @@ class CodeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Code::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/code');
-        CRUD::setEntityNameStrings('code', 'codes');
+        $this->crud->setModel(\App\Models\Code::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/code');
+        $this->crud->setEntityNameStrings('code', 'codes');
     }
 
     /**
@@ -40,8 +40,8 @@ class CodeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('code');
-        CRUD::column('type');
+        $this->crud->column('code');
+        $this->crud->column('type');
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Code $entry) {
             return $entry->user->name;
@@ -49,26 +49,26 @@ class CodeCrudController extends CrudController
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     protected function setupShowOperation()
     {
-        CRUD::column('code');
-        CRUD::column('type');
+        $this->crud->column('code');
+        $this->crud->column('type');
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Code $entry) {
             return $entry->user->name;
         }]);
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        $this->crud->column('created_at');
+        $this->crud->column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -80,9 +80,9 @@ class CodeCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CodeRequest::class);
+        $this->crud->setValidation(CodeRequest::class);
 
-        CRUD::addField(['name'=>'code','type'=>'text']);
+        $this->crud->addField(['name'=>'code','type'=>'text']);
         $this->crud->addField(
             [  // Select
                 'label'     => "User",
@@ -101,8 +101,8 @@ class CodeCrudController extends CrudController
             ]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 

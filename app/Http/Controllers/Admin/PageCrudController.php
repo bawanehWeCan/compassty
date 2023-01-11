@@ -26,9 +26,9 @@ class PageCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Page::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/page');
-        CRUD::setEntityNameStrings('page', 'pages');
+        $this->crud->setModel(\App\Models\Page::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/page');
+        $this->crud->setEntityNameStrings('page', 'pages');
     }
 
     /**
@@ -39,14 +39,14 @@ class PageCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('title');
-        CRUD::column('content');
-        CRUD::column('created_at');
+        $this->crud->column('title');
+        $this->crud->column('content');
+        $this->crud->column('created_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -58,15 +58,15 @@ class PageCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PageRequest::class);
+        $this->crud->setValidation(PageRequest::class);
 
-        CRUD::addField(['name'=>'title','type'=>'text']);
-        CRUD::field('content');
+        $this->crud->addField(['name'=>'title','type'=>'text']);
+        $this->crud->field('content');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
