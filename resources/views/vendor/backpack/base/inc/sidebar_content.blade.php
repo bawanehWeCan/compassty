@@ -12,3 +12,5 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('address') }}"><i class="nav-icon la la-th-list"></i> Addresses</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('address-images') }}"><i class="nav-icon la la-th-list"></i> Address images</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('code') }}"><i class="nav-icon la la-th-list"></i> Codes</a></li>
+
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('sell-code') }}"><i class="nav-icon la la-th-list"></i> Sell codes</a></li>

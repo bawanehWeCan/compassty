@@ -9,7 +9,7 @@ class Code extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable=['code','user_id','type'];
 
     public function user(){
         return $this->belongsTo(User::class);
