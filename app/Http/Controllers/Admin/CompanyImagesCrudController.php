@@ -72,9 +72,8 @@ class CompanyImagesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-
-        $this->blogFields();
         CRUD::setValidation(CompanyImagesRequest::class);
+        $this->blogFields();
 
 
 
