@@ -83,6 +83,7 @@ class CodeCrudController extends CrudController
         $this->crud->setValidation(CodeRequest::class);
 
         $this->crud->addField(['name'=>'code','type'=>'text']);
+        $this->crud->addField(['name'=>'type','type'=>'hidden','value'=>'personal']);
         $this->crud->addField(
             [  // Select
                 'label'     => "User",
