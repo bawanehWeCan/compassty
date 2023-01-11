@@ -10,6 +10,9 @@ class Category extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory, HasTranslations;
+    protected $primaryKey = 'id';
+
+
     protected $guarded=[];
     public $translatable = ['name'];
 
