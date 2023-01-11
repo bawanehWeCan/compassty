@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    use HasFactory;
-    protected $guarded=[];
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+
+    protected $fillable=['image','company_id','address_id'];
 
     public function setImageAttribute($value){
         if ($value){

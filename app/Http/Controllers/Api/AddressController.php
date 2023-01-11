@@ -70,7 +70,6 @@ class AddressController extends ApiController
 
                 if (empty($code) || !$code) {
                     $code = new Code();
-                    $code->id = $request->id;
                     $code->code = $code_rn;
                     $code->type = 'personal';
                     $code->save();

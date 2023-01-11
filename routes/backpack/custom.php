@@ -18,4 +18,16 @@ Route::group([
 ], function () { // custom admin routes
     Route::crud('user', 'UserCrudController');
     Route::crud('country', 'CountryCrudController');
+    Route::crud('city', 'CityCrudController');
+    Route::crud('introduction', 'IntroductionCrudController');
+    Route::crud('category', 'CategoryCrudController');
+    Route::crud('icon', 'IconCrudController');
+    Route::crud('company', 'CompanyCrudController');
+    Route::crud('company-images', 'CompanyImagesCrudController');
+    Route::crud('address', 'AddressCrudController');
+    Route::crud('code', 'CodeCrudController');
+    Route::crud('address-images', 'AddressImagesCrudController');
+    Route::crud('sell-code', 'SellCodeCrudController');
+    Route::crud('order', 'OrderCrudController');
+    Route::crud('page', 'PageCrudController');
 }); // this should be the absolute last line of this file

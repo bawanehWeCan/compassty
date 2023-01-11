@@ -25,8 +25,8 @@ class CountryRequest extends FormRequest
     public function rules()
     {
         return [
-            'en'=>"required|min:2|max:255",
-            'ar'=>"required|min:2|max:255",
+            'en'=>"required|min:4|max:255",
+            'ar'=>"required|min:4|max:255",
             'code' => 'required|min:2|max:255'
         ];
     }
@@ -39,7 +39,8 @@ class CountryRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'en' => 'english name',
+            'ar' => 'arabic name',
         ];
     }
 
