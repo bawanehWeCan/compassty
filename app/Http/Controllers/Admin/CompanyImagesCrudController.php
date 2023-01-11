@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\admin\CompanyImagesRequest;
+use App\Http\Requests\Admin\CompanyImagesRequest;
 use App\Models\Image;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -53,7 +53,7 @@ class CompanyImagesCrudController extends CrudController
             'label' => 'Company',
             'type'     => 'closure',
             'function' => function(Image $entry) {
-                return $entry->company->name;
+                return $entry?->company?->name;
             }]
         );
 

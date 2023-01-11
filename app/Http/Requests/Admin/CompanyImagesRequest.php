@@ -41,7 +41,6 @@ class CompanyImagesRequest extends FormRequest
         return [
             'company_id' =>'company',
             'images.*'=>'images',
-            'images'=>'images',
         ];
     }
 

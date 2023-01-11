@@ -144,7 +144,7 @@ class CityCrudController extends CrudController
 
         $this->crud->addColumn(['country' => 'name', 'label'=>'Country','type'     => 'closure',
         'function' => function(City $entry) {
-            return $entry->country->name;
+            return $entry?->country?->name;
         }]);
 
        $this->crud->column('code');

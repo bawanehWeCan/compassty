@@ -60,7 +60,7 @@ class CodeCrudController extends CrudController
         $this->crud->column('type');
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Code $entry) {
-            return $entry->user->name;
+            return $entry?->user?->name;
         }]);
         $this->crud->column('created_at');
         $this->crud->column('updated_at');

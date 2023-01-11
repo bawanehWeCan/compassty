@@ -94,7 +94,7 @@ class CompanyCrudController extends CrudController
         }]]);
         $this->crud->addColumn(['name' => 'category', 'label'=>'Category','type'     => 'closure',
         'function' => function(Company $entry) {
-            return $entry->category->name;
+            return $entry?->category?->name;
         }]);
         $this->crud->column('lat');
         $this->crud->column('long');

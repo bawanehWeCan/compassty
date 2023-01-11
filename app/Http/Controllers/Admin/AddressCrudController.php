@@ -53,7 +53,7 @@ class AddressCrudController extends CrudController
         $this->crud->column('street');
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Address $entry) {
-            return $entry->user->name;
+            return $entry?->user?->name;
         }]);
         $this->crud->column('created_at');
 
@@ -69,7 +69,7 @@ class AddressCrudController extends CrudController
     {
         $this->crud->addColumn(['name' => 'icon_id', 'label'=>'Icon','type'     => 'closure',
         'function' => function(Address $entry) {
-            return '<img src="'.$entry->icon->icon.'" />';
+            return '<img src="'.$entry?->icon?->icon.'" />';
         }]);
         $this->crud->column('name');
         $this->crud->column('phone_number');
@@ -83,19 +83,19 @@ class AddressCrudController extends CrudController
         $this->crud->column('note');
         $this->crud->addColumn(['name' => 'code_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Address $entry) {
-            return $entry->code->code;
+            return $entry?->code?->code;
         }]);
         $this->crud->addColumn(['name' => 'country_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Address $entry) {
-            return $entry->country->name;
+            return $entry?->country?->name;
         }]);
         $this->crud->addColumn(['name' => 'city_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Address $entry) {
-            return $entry->city->name;
+            return $entry?->city?->name;
         }]);
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Address $entry) {
-            return $entry->user->name;
+            return $entry?->user?->name;
         }]);
         $this->crud->column('created_at');
         $this->crud->column('updated_at');
