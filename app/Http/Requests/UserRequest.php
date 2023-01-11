@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required | string ',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
+            'password' => 'required',
             // 'phone' => 'required|min:9|unique:users,phone,'.$this->id,
             // 'type' => 'required|in:admin,user',
 
