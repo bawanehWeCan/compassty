@@ -15,3 +15,4 @@
 
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('sell-code') }}"><i class="nav-icon la la-th-list"></i> Sell codes</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('order') }}"><i class="nav-icon la la-th-list"></i> Orders</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('page') }}"><i class="nav-icon la la-th-list"></i> Pages</a></li>
