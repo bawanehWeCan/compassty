@@ -32,16 +32,21 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request)
     {
-        $auth = Auth::attempt(
-            $request->only([
-                'email',
-                'password',
-            ])
-        );
+
+        $user = User::where( 'email', $request->email )->first();
+
+        if( !$user ){
+            return response()->json([
+                'status' => false,
+                'code' => 500,
+                'msg' => __('User Not Found!'),
+            ], 500);
+
+        }
 
 
 
-        if (!$auth) {
+        if (Hash::check($user->password,$request->password)) {
 
             return response()->json([
                 'status' => false,
@@ -49,6 +54,8 @@ class AuthController extends Controller
                 'msg' => __('Invalid credentials!'),
             ], 500);
         }
+
+        Auth::login($user);
 
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
 
@@ -170,9 +177,35 @@ class AuthController extends Controller
 
         return $this->returnError('Password not matched!');
     }
-    public function sendEmail($email)
-    {
 
+
+    public function sendOTP($email)
+    {
+        $otp = 5555;
+        // $otp = mt_rand(1000, 9999);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "://82.212.81.40:8080/websmpp/websms",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=WayToDoctor&mno=" . $email . "&text=Your OTP is " . $otp . " for your account&type=1&respformat=json",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
+            ),
+        ));
+
+        curl_exec($curl);
+
+        curl_close($curl);
+
+        return $otp;
     }
 
     public function profile(Request $request)
@@ -185,9 +218,9 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user) {
 
-            $otp = $this->sendEmail($request->email);
+            $otp = $this->sendOTP($request->email);
 
-            $user->email = $otp;
+            $user->otp = $otp;
             $user->save();
 
             return $this->returnSuccessMessage('Code was sent');

@@ -53,7 +53,7 @@ Route::middleware(['auth:api', 'changeLang'])->group(function () {
 });
 
 
-Route::get('address2/{code}', [AddressController::class, 'view'])->name('login');
+Route::get('address2/{code}', [AddressController::class, 'view'])->name('login2');
 
 
 Route::middleware('changeLang')->group(function () {

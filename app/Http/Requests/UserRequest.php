@@ -37,6 +37,7 @@ class UserRequest extends FormRequest
             'phone' => 'required|min:9',
             'type' => 'required|in:admin,user',
 
+
         ];
     }
 
