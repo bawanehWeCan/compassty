@@ -113,6 +113,8 @@ class SellCodeCrudController extends CrudController
                 'options'   =>$addresses,
                 'allows_null' => false,
                 'default'     => '-',
+                'value'     => '-',
+
             ]);
             $countries = Country::pluck('name','id')->toArray();
 
@@ -126,6 +128,7 @@ class SellCodeCrudController extends CrudController
 
                     'allows_null' => false,
                     'default'     => '-',
+                    'value'     => '-',
 
                 ]);
                 $cities = City::pluck('name','id')->toArray();
@@ -138,6 +141,7 @@ class SellCodeCrudController extends CrudController
                     'options'   =>$cities,
                     'allows_null' => false,
                     'default'     => '-',
+                    'value'     => '-',
                 ]);
     }
 
