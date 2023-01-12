@@ -129,7 +129,7 @@ class CompanyCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        //$this->crud->setValidation(CompanyRequest::class);
+        $this->crud->setValidation(CompanyRequest::class);
 
         $this->crud->addField([   // Upload
             'name'      => 'cover_picture',
