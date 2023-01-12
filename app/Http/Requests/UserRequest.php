@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'name' => 'required | string ',
             'email' => 'required|email|unique:users,email,'.$this->id,
             'password' => 'required|min:8',
-            'phone' => 'required|min:9,
+            'phone' => 'required|min:9',
             'type' => 'required|in:admin,user',
 
         ];
