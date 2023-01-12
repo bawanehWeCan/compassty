@@ -32,12 +32,19 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request)
     {
-        $auth = Auth::attempt(
-            $request->only([
-                'email',
-                'password',
-            ])
-        );
+
+        $user = User::where( 'email', $request->email )->first();
+
+        if( !$user ){
+            return response()->json([
+                'status' => false,
+                'code' => 500,
+                'msg' => __('User Not Found!'),
+            ], 500);
+
+        }
+
+        $auth = Hash::check($user->password,$request->password);
 
 
 
@@ -49,6 +56,8 @@ class AuthController extends Controller
                 'msg' => __('Invalid credentials!'),
             ], 500);
         }
+
+        Auth::login($user);
 
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
 
