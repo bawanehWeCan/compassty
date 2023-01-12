@@ -27,7 +27,6 @@ class CompanyRequest extends FormRequest
     public function rules()
     {
         $company = Company::findOrFail(\Route::current()->parameter('id'))->id;
-        dd($company);
         return [
             'en' => 'required|min:4|max:255',
             'ar' => 'required|min:4|max:255',
