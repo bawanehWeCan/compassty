@@ -102,57 +102,42 @@ class SellCodeCrudController extends CrudController
                     return $query->latest()->get();
                 }), //  you can use this to filter the results show in the select
             ]);
+            $addresses = Address::pluck('name','id')->toArray();
 
-            // $this->crud->addField(
-            // [  // Select
-            //     'label'     => "Address",
-            //     'type'      => 'select',
-            //     'name'      => 'address_id', // the db column for the foreign key
+            $this->crud->addField(
+            [  // Select
+                'label'     => "Address",
+                'type'      => 'select_from_array',
+                'name'      => 'address_id', // the db column for the foreign key
 
+                'options'   =>$addresses,
+            ]);
+            $countries = Country::pluck('name','id')->toArray();
 
+            $this->crud->addField(
+                [  // Select
+                    'label'     => "Country",
+                    'type'      => 'select_from_array',
+                    'name'      => 'country_id', // the db column for the foreign key
 
-            //     // optional - manually specify the related model and attribute
-            //     'model'     => "App\Models\Address", // related model
-            //     'attribute' => 'name', // foreign key attribute that is shown to user
-
-            //     'options'   => (function ($query) {
-            //         return $query->latest()->get();
-            //     }), //  you can use this to filter the results show in the select
-            // ]);
-
-            // $this->crud->addField(
-            //     [  // Select
-            //         'label'     => "Country",
-            //         'type'      => 'select',
-            //         'name'      => 'country_id', // the db column for the foreign key
+                    'options'   =>$countries,
 
 
 
-            //         // optional - manually specify the related model and attribute
-            //         'model'     => "App\Models\Country", // related model
-            //         'attribute' => 'name', // foreign key attribute that is shown to user
+                ]);
+                $cities = City::pluck('name','id')->toArray();
 
-            //         'options'   => (function ($query) {
-            //             return $query->latest()->get();
-            //         }), //  you can use this to filter the results show in the select
-            //     ]);
-
-            //     $this->crud->addField(
-            //     [  // Select
-            //         'label'     => "City",
-            //         'type'      => 'select',
-            //         'name'      => 'city_id', // the db column for the foreign key
+                $this->crud->addField(
+                [  // Select
+                    'label'     => "City",
+                    'type'      => 'select_from_array',
+                    'name'      => 'city_id', // the db column for the foreign key
 
 
 
-            //         // optional - manually specify the related model and attribute
-            //         'model'     => "App\Models\City", // related model
-            //         'attribute' => 'name', // foreign key attribute that is shown to user
+                    'options'   =>$cities,
 
-            //         'options'   => (function ($query) {
-            //             return $query->latest()->get();
-            //         }), //  you can use this to filter the results show in the select
-            //     ]);
+                ]);
     }
 
 
