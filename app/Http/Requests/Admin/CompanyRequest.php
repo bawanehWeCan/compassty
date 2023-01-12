@@ -33,7 +33,7 @@ class CompanyRequest extends FormRequest
             'description_ar' => 'required|min:4|max:10000',
             'short_desc_en' => 'required|min:4|max:2000',
             'short_desc_ar' => 'required|min:4|max:2000',
-            'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/',
+            'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,phone,'.$this->id,
             'category_id' => 'required|exists:categories,id',
             'lat' => 'required|numeric',
             'long' => 'required|numeric',
