@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         $auth = Hash::check($user->password,$request->password);
 
-
+        dd( $user );
 
         if (!$auth) {
 
