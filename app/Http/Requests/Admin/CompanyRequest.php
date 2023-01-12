@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\Company;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CompanyRequest extends FormRequest
@@ -25,8 +24,6 @@ class CompanyRequest extends FormRequest
      */
     public function rules()
     {
-        $company = Company::findOrFail(\Route::current()->parameter('id'));
-
         return [
             'en' => 'required|min:4|max:255',
             'ar' => 'required|min:4|max:255',
@@ -36,7 +33,7 @@ class CompanyRequest extends FormRequest
             'description_ar' => 'required|min:4|max:10000',
             'short_desc_en' => 'required|min:4|max:2000',
             'short_desc_ar' => 'required|min:4|max:2000',
-            'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:companies,phone,'.$company->id,
+            'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:companies,phone',
             'category_id' => 'required|exists:categories,id',
             'lat' => 'required|numeric',
             'long' => 'required|numeric',
