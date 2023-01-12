@@ -67,7 +67,7 @@ class UserCrudController extends CrudController
 
         $this->crud->field('name');
         $this->crud->field('email');
-        $this->crud->field('password');
+        $this->crud->addField(['name'=>'password','type'=>'password','value'=>'']);
         $this->crud->addField(['name'        => 'phone','type'=>'text']);
         $this->crud->addField([
             'name'        => 'type',
