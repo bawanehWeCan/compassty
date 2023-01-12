@@ -44,11 +44,9 @@ class AuthController extends Controller
 
         }
 
-        $auth = Hash::check($user->password,$request->password);
 
-        dd( $user );
 
-        if (!$auth) {
+        if (Hash::check($user->password,$request->password)) {
 
             return response()->json([
                 'status' => false,
