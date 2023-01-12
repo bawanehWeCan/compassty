@@ -12,7 +12,7 @@ class Code extends Model
     protected $fillable=['code','user_id','type'];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function address(){

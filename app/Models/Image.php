@@ -22,11 +22,11 @@ class Image extends Model
     }
 
     public function address(){
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class,'address_id');
     }
 
 
     public function company(){
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class,'company_id');
     }
 }
