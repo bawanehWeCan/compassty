@@ -111,6 +111,8 @@ class SellCodeCrudController extends CrudController
                 'name'      => 'address_id', // the db column for the foreign key
 
                 'options'   =>$addresses,
+                'allows_null' => false,
+                'default'     => '-',
             ]);
             $countries = Country::pluck('name','id')->toArray();
 
@@ -122,7 +124,8 @@ class SellCodeCrudController extends CrudController
 
                     'options'   =>$countries,
 
-
+                    'allows_null' => false,
+                    'default'     => '-',
 
                 ]);
                 $cities = City::pluck('name','id')->toArray();
@@ -132,11 +135,9 @@ class SellCodeCrudController extends CrudController
                     'label'     => "City",
                     'type'      => 'select_from_array',
                     'name'      => 'city_id', // the db column for the foreign key
-
-
-
                     'options'   =>$cities,
-
+                    'allows_null' => false,
+                    'default'     => '-',
                 ]);
     }
 
