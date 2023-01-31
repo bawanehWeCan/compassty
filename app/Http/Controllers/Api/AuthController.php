@@ -33,6 +33,7 @@ class AuthController extends Controller
     public function login(AuthRequest $request)
     {
 
+
         $user = User::where( 'email', $request->email )->first();
 
         if( !$user ){
@@ -63,6 +64,11 @@ class AuthController extends Controller
             'token' => $accessToken,
             'user' => UserResource::make(Auth::user()),
         ]]);
+
+
+
+
+
     }
 
 
