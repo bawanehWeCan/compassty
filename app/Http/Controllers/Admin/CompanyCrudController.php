@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\admin\CompanyRequest;
 use App\Models\Company;
+use App\Http\Requests\Admin\CompanyRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -94,7 +94,7 @@ class CompanyCrudController extends CrudController
         }]]);
         $this->crud->addColumn(['name' => 'category', 'label'=>'Category','type'     => 'closure',
         'function' => function(Company $entry) {
-            return $entry->category->name;
+            return $entry?->category?->name;
         }]);
         $this->crud->column('lat');
         $this->crud->column('long');
@@ -214,18 +214,18 @@ class CompanyCrudController extends CrudController
             'value'=>''
             ]);
 
-        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$company->getTranslation('name','ar') ]);
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$company->getTranslation('name','en') ]);
         $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true,'value'=>$company->getTranslation('name','ar')]);
-        $this->crud->addField(['name' => 'address_en', 'type' => 'text','label'=>'English Address','value'=>$company->getTranslation('address','ar')]);
+        $this->crud->addField(['name' => 'address_en', 'type' => 'text','label'=>'English Address','value'=>$company->getTranslation('address','en')]);
         $this->crud->addField(['name' => 'address_ar', 'type' => 'text','label'=>'Arabic Address','value'=>$company->getTranslation('address','ar')]);
         $this->crud->addField(['name' => 'address', 'type' => 'hidden' ]);
 
         $this->crud->addField(['name'=>'phone','type'=>'text']);
-        $this->crud->addField(['name' => 'description_en', 'type' => 'textarea','label'=>'English Description','value'=>$company->getTranslation('description','ar')]);
+        $this->crud->addField(['name' => 'description_en', 'type' => 'textarea','label'=>'English Description','value'=>$company->getTranslation('description','en')]);
         $this->crud->addField(['name' => 'description_ar', 'type' => 'textarea','label'=>'Arabic Description','value'=>$company->getTranslation('description','ar')]);
         $this->crud->addField(['name' => 'description', 'type' => 'hidden' ]);
 
-        $this->crud->addField(['name' => 'short_desc_en', 'type' => 'textarea','label'=>'English Short Description','value'=>$company->getTranslation('short_desc','ar')]);
+        $this->crud->addField(['name' => 'short_desc_en', 'type' => 'textarea','label'=>'English Short Description','value'=>$company->getTranslation('short_desc','en')]);
         $this->crud->addField(['name' => 'short_desc_ar', 'type' => 'textarea','label'=>'Arabic Short Description','value'=>$company->getTranslation('short_desc','ar')]);
         $this->crud->addField(['name' => 'short_desc', 'type' => 'hidden' ]);
 

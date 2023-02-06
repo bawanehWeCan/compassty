@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CategoryRequest;
-use App\Http\Requests\CategoryRequest\Admin;
 use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -30,9 +29,9 @@ class CategoryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Category::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
-        CRUD::setEntityNameStrings('category', 'categories');
+        $this->crud->setModel(\App\Models\Category::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/category');
+        $this->crud->setEntityNameStrings('category', 'categories');
     }
 
     /**
@@ -46,8 +45,8 @@ class CategoryCrudController extends CrudController
         $this->getColumns();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -56,8 +55,8 @@ class CategoryCrudController extends CrudController
         $this->getColumns();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -74,10 +73,10 @@ class CategoryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CategoryRequest::class);
+        $this->crud->setValidation(CategoryRequest::class);
 
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
         $this->crud->addField([   // Upload
             'name'      => 'image',
             'label'     => 'Image',
@@ -87,8 +86,8 @@ class CategoryCrudController extends CrudController
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
@@ -101,10 +100,10 @@ class CategoryCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $category = Category::findOrFail(\Route::current()->parameter('id'));
-        CRUD::setValidation(CategoryRequest::class);
+        $this->crud->setValidation(CategoryRequest::class);
 
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$category->getTranslation('name','en')]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$category->getTranslation('name','ar')]);
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$category->getTranslation('name','en')]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$category->getTranslation('name','ar')]);
         $this->crud->addField([
             'name'      => 'image',
             'label'     => 'Image',
@@ -116,18 +115,18 @@ class CategoryCrudController extends CrudController
 
     public function getColumns()
     {
-        CRUD::addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
         'function' => function(Category $entry) {
             return $entry->getTranslation('name','en');
         }]);
-        CRUD::addColumn(['name' => 'name_ar', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'Arabic Name','type'     => 'closure',
         'function' => function(Category $entry) {
             return $entry->getTranslation('name','ar');
         }]);
 
-        CRUD::addColumn(['name'=>'image','type'=>'image']);
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        $this->crud->addColumn(['name'=>'image','type'=>'image']);
+        $this->crud->column('created_at');
+        $this->crud->column('updated_at');
 
     }
     public function insertDataWithValidation($update=null)

@@ -31,15 +31,15 @@ class SellCodeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Code::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/sell-code');
-        CRUD::setEntityNameStrings('sell code', 'sell codes');
+        $this->crud->setModel(\App\Models\Code::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/sell-code');
+        $this->crud->setEntityNameStrings('sell code', 'sell codes');
     }
 
     protected function setupListOperation()
     {
-        CRUD::column('code');
-        CRUD::column('type');
+        $this->crud->column('code');
+        $this->crud->column('type');
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Code $entry) {
             return $entry?->user?->name;
@@ -47,26 +47,26 @@ class SellCodeCrudController extends CrudController
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     protected function setupShowOperation()
     {
-        CRUD::column('code');
-        CRUD::column('type');
+        $this->crud->column('code');
+        $this->crud->column('type');
         $this->crud->addColumn(['name' => 'user_id', 'label'=>'User','type'     => 'closure',
         'function' => function(Code $entry) {
             return $entry?->user?->name;
         }]);
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        $this->crud->column('created_at');
+        $this->crud->column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
     public function update()
@@ -82,10 +82,10 @@ class SellCodeCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(SellCodeRequest::class);
+        $this->crud->setValidation(SellCodeRequest::class);
 
-        CRUD::addField(['name'=>'code','type'=>'hidden']);
-        CRUD::addField(['name'=>'type','type'=>'hidden','value'=>'premium']);
+        $this->crud->addField(['name'=>'code','type'=>'hidden']);
+        $this->crud->addField(['name'=>'type','type'=>'hidden','value'=>'premium']);
         $this->crud->addField(
             [  // Select
                 'label'     => "User",
@@ -102,56 +102,46 @@ class SellCodeCrudController extends CrudController
                     return $query->latest()->get();
                 }), //  you can use this to filter the results show in the select
             ]);
+            $addresses = Address::pluck('name','id')->toArray();
 
             $this->crud->addField(
             [  // Select
                 'label'     => "Address",
-                'type'      => 'select',
+                'type'      => 'select_from_array',
                 'name'      => 'address_id', // the db column for the foreign key
 
+                'options'   =>$addresses,
+                'allows_null' => false,
+                'default'     => '-',
+                'value'     => '-',
 
-
-                // optional - manually specify the related model and attribute
-                'model'     => "App\Models\Address", // related model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-
-                'options'   => (function ($query) {
-                    return $query->latest()->get();
-                }), //  you can use this to filter the results show in the select
             ]);
+            $countries = Country::pluck('name','id')->toArray();
 
             $this->crud->addField(
                 [  // Select
                     'label'     => "Country",
-                    'type'      => 'select',
+                    'type'      => 'select_from_array',
                     'name'      => 'country_id', // the db column for the foreign key
 
+                    'options'   =>$countries,
 
+                    'allows_null' => false,
+                    'default'     => '-',
+                    'value'     => '-',
 
-                    // optional - manually specify the related model and attribute
-                    'model'     => "App\Models\Country", // related model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-
-                    'options'   => (function ($query) {
-                        return $query->latest()->get();
-                    }), //  you can use this to filter the results show in the select
                 ]);
+                $cities = City::pluck('name','id')->toArray();
 
                 $this->crud->addField(
                 [  // Select
                     'label'     => "City",
-                    'type'      => 'select',
+                    'type'      => 'select_from_array',
                     'name'      => 'city_id', // the db column for the foreign key
-
-
-
-                    // optional - manually specify the related model and attribute
-                    'model'     => "App\Models\City", // related model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-
-                    'options'   => (function ($query) {
-                        return $query->latest()->get();
-                    }), //  you can use this to filter the results show in the select
+                    'options'   =>$cities,
+                    'allows_null' => false,
+                    'default'     => '-',
+                    'value'     => '-',
                 ]);
     }
 

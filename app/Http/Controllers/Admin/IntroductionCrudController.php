@@ -125,9 +125,9 @@ class IntroductionCrudController extends CrudController
         $introduction = Introduction::findOrFail(\Route::current()->parameter('id'));
 
         $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Title', 'store_in'     => 'title','fake'     => true,'value'=>$introduction->getTranslation('title','en') ]);
-        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Title', 'store_in'     => 'title','fake'     => true,'value'=>$introduction->getTranslation('title','en') ]);
-        $this->crud->addField(['name' => 'body_en', 'type' => 'textarea','label'=>'English Body', 'value'=>$introduction->getTranslation('body','ar') ]);
-        $this->crud->addField(['name' => 'body_ar', 'type' => 'textarea','label'=>'Arabic Body', 'value'=>$introduction->getTranslation('body','en') ]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Title', 'store_in'     => 'title','fake'     => true,'value'=>$introduction->getTranslation('title','ar') ]);
+        $this->crud->addField(['name' => 'body_en', 'type' => 'textarea','label'=>'English Body', 'value'=>$introduction->getTranslation('body','en') ]);
+        $this->crud->addField(['name' => 'body_ar', 'type' => 'textarea','label'=>'Arabic Body', 'value'=>$introduction->getTranslation('body','ar') ]);
         $this->crud->addField(['name' => 'body', 'type' => 'hidden' ]);
 
         $this->crud->addField([

@@ -28,9 +28,9 @@ class CountryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Country::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/country');
-        CRUD::setEntityNameStrings('country', 'countries');
+        $this->crud->setModel(\App\Models\Country::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/country');
+        $this->crud->setEntityNameStrings('country', 'countries');
     }
 
     /**
@@ -44,8 +44,8 @@ class CountryCrudController extends CrudController
         $this->getColumns();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -54,8 +54,8 @@ class CountryCrudController extends CrudController
         $this->getColumns();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -67,16 +67,16 @@ class CountryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CountryRequest::class);
+        $this->crud->setValidation(CountryRequest::class);
 
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
-        CRUD::field('code');
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
+        $this->crud->field('code');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
@@ -89,29 +89,29 @@ class CountryCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $country = Country::findOrFail(\Route::current()->parameter('id'));
-        CRUD::setValidation(CountryRequest::class);
+        $this->crud->setValidation(CountryRequest::class);
 
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$country->getTranslation('name','en')]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$country->getTranslation('name','ar')]);
-        CRUD::field('code');
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$country->getTranslation('name','en')]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$country->getTranslation('name','ar')]);
+        $this->crud->field('code');
 
 
     }
 
     public function getColumns()
     {
-        CRUD::addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
         'function' => function(Country $entry) {
             return $entry->getTranslation('name','en');
         }]);
-        CRUD::addColumn(['name' => 'name_ar', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'Arabic Name','type'     => 'closure',
         'function' => function(Country $entry) {
             return $entry->getTranslation('name','ar');
         }]);
 
-       CRUD::column('code');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+       $this->crud->column('code');
+        $this->crud->column('created_at');
+        $this->crud->column('updated_at');
 
     }
 

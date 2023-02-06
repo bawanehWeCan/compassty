@@ -25,10 +25,10 @@ class IntroductionRequest extends FormRequest
     public function rules()
     {
         return [
-            'en' => 'required|min:5|max:255',
-            'ar' => 'required|min:5|max:255',
-            'body_en' => 'required|min:5|max:10000',
-            'body_ar' => 'required|min:5|max:255',
+            'en' => 'required|min:4|max:255',
+            'ar' => 'required|min:4|max:255',
+            'body_en' => 'required|min:4|max:10000',
+            'body_ar' => 'required|min:4|max:255',
             'image'=>'required_without:id|mimes:jpg,gif,jpeg,png',
         ];
     }

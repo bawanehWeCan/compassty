@@ -27,9 +27,9 @@ class CityCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\City::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/city');
-        CRUD::setEntityNameStrings('city', 'cities');
+        $this->crud->setModel(\App\Models\City::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/city');
+        $this->crud->setEntityNameStrings('city', 'cities');
     }
 
     /**
@@ -44,8 +44,8 @@ class CityCrudController extends CrudController
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
     protected function setupShowOperation()
@@ -54,8 +54,8 @@ class CityCrudController extends CrudController
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
@@ -67,12 +67,12 @@ class CityCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CityRequest::class);
+        $this->crud->setValidation(CityRequest::class);
 
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
-        CRUD::field('code');
-        CRUD::field('country_id');
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true, ]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, ]);
+        $this->crud->field('code');
+        $this->crud->field('country_id');
         $this->crud->addField(
             [  // Select
                 'label'     => "Country",
@@ -91,8 +91,8 @@ class CityCrudController extends CrudController
             ]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
@@ -107,12 +107,12 @@ class CityCrudController extends CrudController
 
         $city = City::findOrFail(\Route::current()->parameter('id'));
 
-        CRUD::setValidation(CityRequest::class);
+        $this->crud->setValidation(CityRequest::class);
 
-        CRUD::addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$city->getTranslation('name','en')]);
-        CRUD::addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$city->getTranslation('name','ar')]);
-        CRUD::field('code');
-        CRUD::field('country_id');
+        $this->crud->addField(['name' => 'en', 'type' => 'text','label'=>'English Name', 'store_in'     => 'name','fake'     => true,'value'=>$city->getTranslation('name','en')]);
+        $this->crud->addField(['name' => 'ar', 'type' => 'text','label'=>'Arabic Name', 'store_in'     => 'name','fake'     => true, 'value'=>$city->getTranslation('name','ar')]);
+        $this->crud->field('code');
+        $this->crud->field('country_id');
         $this->crud->addField(
             [  // Select
                 'label'     => "Country",
@@ -133,23 +133,23 @@ class CityCrudController extends CrudController
 
     public function getColumns()
     {
-        CRUD::addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name', 'label'=>'English Name','type'     => 'closure',
         'function' => function(City $entry) {
             return $entry->getTranslation('name','en');
         }]);
-        CRUD::addColumn(['name' => 'name_ar', 'label'=>'English Name','type'     => 'closure',
+        $this->crud->addColumn(['name' => 'name_ar', 'label'=>'Arabic Name','type'     => 'closure',
         'function' => function(City $entry) {
             return $entry->getTranslation('name','ar');
         }]);
 
-        CRUD::addColumn(['country' => 'name', 'label'=>'Country','type'     => 'closure',
+        $this->crud->addColumn(['country' => 'name', 'label'=>'Country','type'     => 'closure',
         'function' => function(City $entry) {
-            return $entry->country->name;
+            return $entry?->country?->name;
         }]);
 
-       CRUD::column('code');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+       $this->crud->column('code');
+        $this->crud->column('created_at');
+        $this->crud->column('updated_at');
 
     }
 }

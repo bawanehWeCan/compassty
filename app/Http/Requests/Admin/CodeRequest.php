@@ -26,7 +26,7 @@ class CodeRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'code' => 'required|min:5|max:255',
+            'code' => 'required|min:4|max:255',
 
         ];
     }
