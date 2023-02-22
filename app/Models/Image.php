@@ -29,4 +29,13 @@ class Image extends Model
     public function company(){
         return $this->belongsTo(Company::class,'company_id');
     }
+
+    protected static function booted()
+    {
+        static::deleted(function ($image) {
+            if ($image->image  && \Illuminate\Support\Facades\File::exists($image->image)) {
+                unlink($image->image);
+            }
+        });
+    }
 }

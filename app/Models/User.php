@@ -62,5 +62,12 @@ class User extends Authenticatable
     }
 
 
-   
+    protected static function booted()
+    {
+        static::deleted(function ($user) {
+            if($user->addresses) $user->addresses()->delete();
+            if($user->recent()->count()>0) $user->recent()->detach();
+
+        });
+    }
 }
