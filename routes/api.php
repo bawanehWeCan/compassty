@@ -37,12 +37,14 @@ Route::post('/password-otp', [AuthController::class, 'password']);
 
 Route::post('change-password', [AuthController::class, 'changePassword']);
 
+Route::post('/otp-activate-check', [AuthController::class, 'checkPhone']);
+
+Route::post('/activate-otp', [AuthController::class, 'activate']);
 //Auth
 Route::middleware(['auth:api', 'changeLang'])->group(function () {
 
-    Route::post('/otp-check', [AuthController::class, 'check']);
-
-    Route::post('/password-otp', [AuthController::class, 'password']);
+ 
+    
     Route::post('/user-update', [AuthController::class, 'updateProfile']);
 
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
