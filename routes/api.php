@@ -182,6 +182,7 @@ Route::post('icon/edit/{id}', [IconController::class, 'edit']);
 Route::get('categories', [CategoryController::class, 'list']);
 Route::post('category-create', [CategoryController::class, 'save']);
 Route::get('category/{id}', [CategoryController::class, 'view']);
+Route::post('category-companies/{id}', [CategoryController::class, 'viewCompanies']);
 Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
 Route::post('category/edit/{id}', [CategoryController::class, 'edit']);
 
