@@ -37,6 +37,7 @@ class UserRequest extends FormRequest
             'password' => ['required_without:id', 'nullable',Password::min(8)],
             'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,phone,'.$this->id,
             'type' => 'required|in:admin,user',
+            'active' => 'required|in:0,1',
 
         ];
     }

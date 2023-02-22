@@ -53,13 +53,22 @@ class UserCrudController extends CrudController
             'label' => "Type", // Table column heading
             'type' => 'Text'
           ]);
-
+          $this->crud->addColumn(['name' => 'active', 'label'=>'Active','type'     => 'closure',
+          'function' => function(User $entry) {
+              if ($entry->active==1) {
+                  return "Active";
+              } else if($entry->active==0){
+                  return "Inactive";
+              }
+          }]);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - $this->crud->column('price')->type('number');
          * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
+    
+
     public function store()
     {
         $this->insertDataWithValidation();
@@ -92,6 +101,16 @@ class UserCrudController extends CrudController
             'options'     => [
                 'user' => "User",
                 'admin' => "Admin"
+            ],
+
+        ]);
+        $this->crud->addField([
+            'name'        => 'active',
+            'label'       => 'Activate',
+            'type'        => 'radio',
+            'options'     => [
+                0 => "Inactive",
+                1 => "Active"
             ],
 
         ]);

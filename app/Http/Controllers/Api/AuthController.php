@@ -312,5 +312,118 @@ class AuthController extends Controller
         }
     }
 
+    public function activate(Request $request)
+    {
+        $user = User::where('email', $request->phone)->first();
+        if ($user) {
 
+            $otp = $this->sendPhoneOTP($request->phone);
+
+            $user->otp = $otp;
+            $user->save();
+
+            return $this->returnSuccessMessage('Code was sent');
+        }
+
+        return $this->returnError('Code not sent User not found');
+    }
+
+    public function sendPhoneOTP($phone)
+    {
+        $otp = 5555;
+
+        // $otp = mt_rand(1000, 9999);
+
+        // $curl = curl_init();
+
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => "https://gwjo1s.broadnet.me:8443/websmpp/websms?",
+        //     CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12346&sid=WayToDoctor&mno=" . $phone . "&text=Your OTP is " . $otp . " for your account&type=1&respformat=json",
+        //     CURLOPT_HTTPHEADER => array(
+        //         "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
+        //     ),
+        // ));
+
+        // $ch = curl_exec($curl);
+
+        // curl_close($curl);
+
+        // dd($curl);
+        // return;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.releans.com/v2/otp/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "sender=WaytoDoctor&mobile=" . $phone . "&channel=sms",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6ImQ0ODg4NzQzLThhZTEtNDkwZC1iZGM4LTQwMjY1OGJmODE4ZiIsImlhdCI6MTY3NjEyNDY1MSwiaXNzIjoxNDIwM30.fdCLRBRljOMOyb1CPUeDxHuLwjJPVTMSDFjQ-FlugZo"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // dd($response);
+        // return;
+
+        return $otp;
+    }
+
+    public function checkPhoneOTP($phone, $otp)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.releans.com/v2/otp/check",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "mobile=" . $phone . "&code=" . $otp,
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6ImQ0ODg4NzQzLThhZTEtNDkwZC1iZGM4LTQwMjY1OGJmODE4ZiIsImlhdCI6MTY3NjEyNDY1MSwiaXNzIjoxNDIwM30.fdCLRBRljOMOyb1CPUeDxHuLwjJPVTMSDFjQ-FlugZo"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        // echo $response;
+        // return ;
+
+
+        $json = json_decode($response);
+
+
+        if ($json->status == 200) {
+
+            $user = User::where('phone', $phone)->first();
+            $user->active = 1;
+            $user->save();
+            return true;
+        }
+        return false;
+    }
+    public function checkPhone(Request $request)
+    {
+
+            if ($this->checkPhoneOTP($request->phone, $request->code)) {
+                return $this->returnSuccessMessage('success');
+            } else {
+                return $this->returnError('Sorry! code not correct');
+            }
+
+    }
 }

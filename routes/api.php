@@ -40,6 +40,9 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 //Auth
 Route::middleware(['auth:api', 'changeLang'])->group(function () {
 
+    Route::post('/otp-check', [AuthController::class, 'check']);
+
+    Route::post('/password-otp', [AuthController::class, 'password']);
     Route::post('/user-update', [AuthController::class, 'updateProfile']);
 
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
