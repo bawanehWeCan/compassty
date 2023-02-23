@@ -38,5 +38,15 @@ class NotificationController extends ApiController
         return $this->returnData('data', new $this->resource($data), __('Updated succesfully'));
     }
 
+    public function list()
+    {
+
+        $data =  $this->repositry->latest()->update(['view'=>1]);
+        $data =  $this->repositry->latest()->get();
+        return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
+
+
+    }
+
 }
 
