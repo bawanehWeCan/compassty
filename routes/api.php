@@ -43,9 +43,10 @@ Route::post('/activate-otp', [AuthController::class, 'activate']);
 //Auth
 Route::middleware(['auth:api', 'changeLang'])->group(function () {
 
- 
-    
+
+
     Route::post('/user-update', [AuthController::class, 'updateProfile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
