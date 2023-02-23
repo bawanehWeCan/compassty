@@ -41,8 +41,8 @@ class NotificationController extends ApiController
     public function listView()
     {
 
-        $data =  $this->repositry->latest()->update(['view'=>1]);
-        $data =  $this->repositry->latest()->get();
+        $data =  $this->model->latest()->update(['view'=>1]);
+        $data =  $this->model->latest()->get();
         return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
 
 
