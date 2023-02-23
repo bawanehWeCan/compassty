@@ -75,7 +75,6 @@ class AuthController extends Controller
     public function store(UserRequest $request)
     {
         try {
-            DB::beginTransaction();
             $user = $this->userRepositry->save($request);
 
             // if ($request->has('image')) {
@@ -103,7 +102,6 @@ class AuthController extends Controller
 
             // curl_close($curl);
 
-            DB::commit();
             Auth::login($user);
 
             $accessToken = Auth::user()->createToken('authToken')->accessToken;
@@ -116,9 +114,8 @@ class AuthController extends Controller
                     'user' => UserResource::make(Auth::user()),
                 ]]);
             }
-        } catch (\Exception$e) {
-            dd($e);
-            DB::rollback();
+        } catch (\Exception $e) {
+            return $e;
             return $this->returnError('Sorry! Failed in creating user');
         }
     }
@@ -322,7 +319,7 @@ class AuthController extends Controller
 
         return $this->returnSuccessMessage('Done!');
     }
-    
+
     public function activate(Request $request)
     {
         $user = User::where('email', $request->phone)->first();

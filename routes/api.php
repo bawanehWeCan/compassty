@@ -29,6 +29,8 @@ use App\Http\Controllers\Api\PageController;
 
 
 
+Route::post('/user-reg', [AuthController::class, 'store']);
+
 Route::post('sociallogin', [AuthController::class, 'sociallogin']);
 
 Route::post('/otp-check', [AuthController::class, 'check']);
@@ -128,7 +130,6 @@ Route::middleware('changeLang')->group(function () {
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
-Route::post('/user-reg', [AuthController::class, 'store']);
 
 
 Route::post('/otb-check', [AuthController::class, 'check']);
