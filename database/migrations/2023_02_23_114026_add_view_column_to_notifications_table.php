@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->boolean('views')->default(0)->after('content');
+            $table->boolean('view')->default(0)->after('content');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->dropColumn('views');
+            $table->dropColumn('view');
         });
     }
 };
