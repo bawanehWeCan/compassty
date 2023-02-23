@@ -100,6 +100,7 @@ Route::middleware('changeLang')->group(function () {
 
     //Notification
     Route::get('notifications', [NotificationController::class, 'list']);
+    Route::get('notifications-view', [NotificationController::class, 'listView']);
     Route::post('notification-create', [NotificationController::class, 'save']);
     Route::get('notification/{id}', [NotificationController::class, 'view']);
     Route::get('notification/delete/{id}', [NotificationController::class, 'delete']);
