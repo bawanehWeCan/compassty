@@ -33,7 +33,8 @@ class NotificationController extends ApiController
     public function view($id)
     {
         $data=$this->model->find($id);
-        $data->
+        $data->view = 1;
+        $data->save();
         return $this->returnData('data', new $this->resource($data), __('Updated succesfully'));
     }
 
