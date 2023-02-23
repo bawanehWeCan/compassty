@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->integer('views')->after('content');
+            $table->boolean('views')->default(0)->after('content');
         });
     }
 
