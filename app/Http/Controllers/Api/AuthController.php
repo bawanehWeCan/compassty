@@ -312,6 +312,17 @@ class AuthController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        $user = User::find($id);
+
+        $user->delete();
+
+
+
+        return $this->returnSuccessMessage('Done!');
+    }
+    
     public function activate(Request $request)
     {
         $user = User::where('email', $request->phone)->first();
