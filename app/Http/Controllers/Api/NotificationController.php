@@ -30,6 +30,6 @@ class NotificationController extends ApiController
 
     }
 
-
+    
 }
 

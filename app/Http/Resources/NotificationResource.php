@@ -18,6 +18,7 @@ class NotificationResource extends JsonResource
 
             'id'=>$this->id,
             'content'=>$this->content,
+            'views'=>$this->views,
             'user'=> new UserResource($this?->user),
         ];
     }
