@@ -44,6 +44,7 @@ class NotificationController extends ApiController
 
         $nonestatus = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->get();
         $unread = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',1)->get();
+        return $nonestatus;
         if ($nonestatus) {
             $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->update(['view'=>1]);
             $data =  $this->model->latest()->where('user_id',Auth::user()->id)->get();
