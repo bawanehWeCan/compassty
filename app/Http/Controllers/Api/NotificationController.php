@@ -44,12 +44,12 @@ class NotificationController extends ApiController
 
         $nonestatus = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->get();
         $unread = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',1)->get();
-        if (!empty($nonestatus)) {
+        if (count($nonestatus)>0) {
             $data = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->update(['view'=>1]);
             $data = $this->model->latest()->where('user_id',Auth::user()->id)->get();
             return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
 
-        }elseif (!empty($unread)) {
+        }elseif (count($unread)>0) {
             $data = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',1)->update(['view'=>2]);
             $data = $this->model->latest()->where('user_id',Auth::user()->id)->get();
             return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
