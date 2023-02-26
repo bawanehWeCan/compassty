@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ApiController;
 use App\Http\Requests\NotificationRequest;
 use App\Http\Resources\NotificationResource;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ApiController;
 
 class NotificationController extends ApiController
 {
