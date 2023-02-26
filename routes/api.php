@@ -60,6 +60,9 @@ Route::middleware(['auth:api', 'changeLang'])->group(function () {
     Route::get('recent-used', [AddressController::class, 'recentAddresses']);
 
     Route::get('address/{code}', [AddressController::class, 'view']);
+
+    Route::get('notifications-view', [NotificationController::class, 'listView']);
+
 });
 
 
@@ -100,7 +103,6 @@ Route::middleware('changeLang')->group(function () {
 
     //Notification
     Route::get('notifications', [NotificationController::class, 'list']);
-    Route::get('notifications-view', [NotificationController::class, 'listView']);
     Route::post('notification-create', [NotificationController::class, 'save']);
     Route::get('notification/{id}', [NotificationController::class, 'view']);
     Route::get('notification/delete/{id}', [NotificationController::class, 'delete']);
