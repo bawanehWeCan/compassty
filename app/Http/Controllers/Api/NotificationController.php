@@ -42,9 +42,21 @@ class NotificationController extends ApiController
     public function listView()
     {
 
-        $data =  $this->model->latest()->where('user_id',Auth::user()->id)->update(['view'=>1]);
-        $data =  $this->model->latest()->where('user_id',Auth::user()->id)->get();
-        return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
+        $nonestatus = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->get();
+        $unread = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',1)->get();
+        if ($nonestatus) {
+            $this->model->latest()->where('user_id',Auth::user()->id)->update(['view'=>1]);
+            $data =  $this->model->latest()->where('user_id',Auth::user()->id)->get();
+            return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
+
+        }
+
+        if ($unread) {
+            $this->model->latest()->where('user_id',Auth::user()->id)->update(['view'=>2]);
+            $data =  $this->model->latest()->where('user_id',Auth::user()->id)->get();
+            return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
+
+        }
 
 
     }
