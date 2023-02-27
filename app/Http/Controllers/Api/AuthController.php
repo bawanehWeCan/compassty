@@ -326,7 +326,7 @@ class AuthController extends Controller
         if ($user) {
 
             $user->update([
-                'active'=>1
+                'active'=>"1"
             ]);
             return $this->returnSuccessMessage('User Activated');
         }
