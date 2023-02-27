@@ -325,56 +325,19 @@ class AuthController extends Controller
         $user = User::where('email', $request->phone)->first();
         if ($user) {
 
-            $otp = $this->sendFireBaseOTP($request->phone);
-
-            $user->otp = $otp;
-            $user->save();
-
-            return $this->returnSuccessMessage('Code was sent');
-        }
-
-        return $this->returnError('Code not sent User not found');
-    }
-
-    public function sendfireBaseOTP($phone)
-    {
-        $otp = 5555;
 
 
-        // dd($response);
-        // return;
-
-        return $otp;
-    }
-
-    public function checkfirebaseOTP($phone, $otp)
-    {
-
-
-
-
-
-
-
-        if ($json->status == 200) {
-
-            $user = User::where('phone', $phone)->first();
             $user->active = 1;
             $user->save();
-            return true;
+
+            return $this->returnSuccessMessage('User Activated');
         }
-        return false;
-    }
-    public function checkPhone(Request $request)
-    {
 
-            if ($this->checkPhoneOTP($request->phone, $request->code)) {
-                return $this->returnSuccessMessage('success');
-            } else {
-                return $this->returnError('Sorry! code not correct');
-            }
-
+        return $this->returnError('Failed to activate user');
     }
+
+
+
 
     public function logout(Request $request)
     {
