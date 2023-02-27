@@ -320,14 +320,19 @@ class AuthController extends Controller
     public function activate(Request $request)
     {
         $user = Auth::user();
-        if ($user->phone == $request->phone) {
+        if ($user) {
 
+            if ($user->phone == null) {
+                $user->update([
+                    'phone'=>$request->phone,
+                ]);
+            }
             $user->update([
                 'active'=>"1"
             ]);
             return $this->returnSuccessMessage('User Activated');
-        }
 
+        }
         return $this->returnError('Failed to activate user');
     }
 
