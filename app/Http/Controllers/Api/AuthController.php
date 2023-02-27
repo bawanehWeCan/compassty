@@ -325,9 +325,9 @@ class AuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if ($user) {
 
-            $user->active = 1;
-            $user->save();
-            return $user;
+            $user->update([
+                'active'=>1
+            ]);
             return $this->returnSuccessMessage('User Activated');
         }
 
