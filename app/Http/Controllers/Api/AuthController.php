@@ -322,7 +322,7 @@ class AuthController extends Controller
 
     public function activate(Request $request)
     {
-        $user = User::where('email', $request->phone)->first();
+        $user = User::where('phone', $request->phone)->first();
         if ($user) {
 
 
