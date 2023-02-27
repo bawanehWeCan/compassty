@@ -319,8 +319,8 @@ class AuthController extends Controller
 
     public function activate(Request $request)
     {
-        $user = User::where('phone', $request->phone)->first();
-        if ($user) {
+        $user = Auth::user();
+        if ($user->phone == $request->phone) {
 
             $user->update([
                 'active'=>"1"
