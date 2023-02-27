@@ -201,7 +201,7 @@ class AddressCrudController extends CrudController
                      if (empty($code) || !$code) {
                          $code = new Code();
                          $code->code = 'UNIQUE' . $rn;
-                         $code->type = 'personal';
+                         $code->type = 'premium';
                          $code->save();
                      }
 
@@ -217,6 +217,7 @@ class AddressCrudController extends CrudController
                          $code = new Code();
                          $code->code = $code_rn;
                          $code->type = 'personal';
+                         $code->user_id = $request->user_id;
                          $code->save();
                      }
 
