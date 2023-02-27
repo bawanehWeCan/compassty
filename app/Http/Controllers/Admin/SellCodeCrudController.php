@@ -39,7 +39,7 @@ class SellCodeCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->addClause('whereDoesntHave', 'user');
-        $this->crud->addClause('where', 'like',"%UNIQUE%");
+        $this->crud->addClause('where', 'code','like',"%UNIQUE%");
         $this->crud->column('code');
         $this->crud->column('type');
 
