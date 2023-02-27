@@ -43,11 +43,9 @@ Route::post('/otp-activate-check', [AuthController::class, 'checkPhone']);
 
 Route::post('delete-user/{id}', [AuthController::class, 'delete']);
 
-Route::post('/activate', [AuthController::class, 'activate']);
 //Auth
 Route::middleware(['auth:api', 'changeLang'])->group(function () {
-
-
+    Route::post('/activate', [AuthController::class, 'activate']);
 
     Route::post('/user-update', [AuthController::class, 'updateProfile']);
     Route::post('/logout', [AuthController::class, 'logout']);

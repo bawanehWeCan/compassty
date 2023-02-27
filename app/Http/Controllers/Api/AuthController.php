@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
@@ -161,24 +162,20 @@ class AuthController extends Controller
     }
 
 
-    public function updatePassword(Request $request)
+    public function updatePassword(PasswordRequest $request)
     {
         $user = Auth::user();
-        $old_pw =$request->old_password;
-
-    //   if ($user->password == $old_pw)
-
-        if(Hash::check($old_pw, $user->password)){
 
 
-                $user->update([
-                    'password' => Hash::make($request->new_password),
+        if($user){
+
+            $user->update([
+                'password' => Hash::make($request->new_password),
                 ]);
 
             return $this->returnSuccessMessage('Password has been changed');
         }
 
-        return $this->returnError('Password not matched!');
     }
 
 
