@@ -263,7 +263,7 @@ class AuthController extends Controller
             return $this->returnSuccessMessage('Password has been changed');
         }
 
-        return $this->returnError('Password not matched!');
+        return $this->returnError('Failed in changing password !');
     }
 
     public function updateProfile(ProfileUpdateRequest $request)
