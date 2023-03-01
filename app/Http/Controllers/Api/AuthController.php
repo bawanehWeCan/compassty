@@ -48,7 +48,12 @@ class AuthController extends Controller
 
 
 
-        if (Hash::check($user->password,$request->password)) {
+        if (! Auth::attempt(
+            $request->only([
+                'email',
+                'password',
+            ])
+        )) {
 
             return response()->json([
                 'status' => false,
