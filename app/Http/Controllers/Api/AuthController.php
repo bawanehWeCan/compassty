@@ -48,7 +48,7 @@ class AuthController extends Controller
 
 
 
-        if (! Auth::attempt(
+        if (!Auth::attempt(
             $request->only([
                 'email',
                 'password',
