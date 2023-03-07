@@ -287,7 +287,9 @@ class AuthController extends Controller
                         return $this->returnError('The email address is already used!');
                     }
                 }
-
+                if (isset($request->password) && !empty($request->password)) {
+                    $request['password'] = bcrypt($request->password);
+                }
                 $this->userRepositry->edit($request, $user);
                 return $this->returnData('user', new UserResource($user), 'User updated successfully');
             }
