@@ -274,7 +274,6 @@ class AuthController extends Controller
     public function updateProfile(ProfileUpdateRequest $request)
     {
         try {
-            DB::beginTransaction();
             // dd( Auth::user() );
             $user = Auth::user();
             if ($user) {
@@ -299,7 +298,6 @@ class AuthController extends Controller
             //     $image = $this->userRepositry->insertImage($request->image, $user);
             // }
 
-            DB::commit();
             // unset($user->image);
 
             return $this->returnError('Sorry! Failed to find user');
