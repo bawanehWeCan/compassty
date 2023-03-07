@@ -60,7 +60,7 @@ class CheckIfAdmin
         }
 
         if (! $this->checkIfUserIsAdmin(backpack_user())) {
-            backpack_user()->logout();
+            backpack_auth()->logout();
             return $this->respondToUnauthorizedRequest($request);
         }
         app()->setLocale('en');
