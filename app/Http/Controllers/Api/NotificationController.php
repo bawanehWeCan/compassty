@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ApiController;
 use App\Http\Requests\NotificationRequest;
 use App\Http\Resources\NotificationResource;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ApiController;
 
 class NotificationController extends ApiController
 {
@@ -30,6 +31,31 @@ class NotificationController extends ApiController
 
     }
 
+    public function view($id)
+    {
+        $data=$this->model->find($id);
+        $data->view = 1;
+        $data->save();
+        return $this->returnData('data', new $this->resource($data), __('Updated succesfully'));
+    }
+
+    public function listView()
+    {
+
+        $nonestatus = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->get();
+        $unread = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',1)->get();
+        if (count($nonestatus)>0) {
+            $data = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',0)->update(['view'=>1]);
+            
+        }elseif (count($unread)>0) {
+            $data = $this->model->latest()->where('user_id',Auth::user()->id)->where('view',1)->update(['view'=>2]);
+
+        }
+
+            $data = $this->model->latest()->where('user_id',Auth::user()->id)->get();
+            return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
+
+    }
 
 }
 

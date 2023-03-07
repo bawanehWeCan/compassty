@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Code;
 use App\Models\Address;
 use App\Models\Country;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\Admin\AddressRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -200,7 +201,7 @@ class AddressCrudController extends CrudController
                      if (empty($code) || !$code) {
                          $code = new Code();
                          $code->code = 'UNIQUE' . $rn;
-                         $code->type = 'personal';
+                         $code->type = 'premium';
                          $code->save();
                      }
 
@@ -216,6 +217,7 @@ class AddressCrudController extends CrudController
                          $code = new Code();
                          $code->code = $code_rn;
                          $code->type = 'personal';
+                         $code->user_id = $request->user_id;
                          $code->save();
                      }
 
@@ -240,5 +242,18 @@ class AddressCrudController extends CrudController
         }
 
         return false;
+    }
+
+    protected function setupDeleteOperation()
+    {
+        $address = Address::findOrFail(\Route::current()->parameter('id'));
+        if ($address->images) {
+            foreach ($address->images as $image) {
+                if (File::exists($image->image)) {
+                    unlink($image->image);
+                }
+            }
+            $address->images()->delete();
+        }
     }
 }

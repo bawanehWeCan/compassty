@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Admin;
 
 use App\Traits\ResponseTrait;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -33,9 +34,10 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required | string ',
             'email' => 'required|email|unique:users,email,'.$this->id,
-            'password' => 'required|min:8',
+            'password' => ['required_without:id', 'nullable',Password::min(8)],
             'phone' => 'required|min:9|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,phone,'.$this->id,
             'type' => 'required|in:admin,user',
+            'active' => 'required|in:0,1',
 
         ];
     }

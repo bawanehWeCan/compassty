@@ -41,4 +41,17 @@ class Company extends Model
     public function images(){
         return $this->hasMany(Image::class);
     }
+
+    protected static function booted()
+    {
+        static::deleted(function ($company) {
+            if($company->images) $company->images()->delete();
+            if ($company->logo  && \Illuminate\Support\Facades\File::exists($company->logo)) {
+                unlink($company->logo);
+            }
+            if ($company->cover_picture  && \Illuminate\Support\Facades\File::exists($company->cover_picture)) {
+                unlink($company->cover_picture);
+            }
+        });
+    }
 }

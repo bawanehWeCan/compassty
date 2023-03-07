@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Company;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\Admin\CompanyRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -283,12 +284,5 @@ class CompanyCrudController extends CrudController
         }
     }
 
-    protected function setupDeleteOperation()
-    {
-        $company = Company::findOrFail(\Route::current()->parameter('id'));
-        if ($company) {
-            unlink($company->cover_picture);
-            unlink($company->logo);
-        }
-    }
+
 }

@@ -73,11 +73,5 @@ class IconCrudController extends CrudController
          */
     }
 
-    protected function setupDeleteOperation()
-    {
-        $icon = Icon::findOrFail(\Route::current()->parameter('id'));
-        if ($icon) {
-            unlink($icon->icon);
-        }
-    }
+  
 }

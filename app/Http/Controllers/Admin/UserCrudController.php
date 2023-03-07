@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UserRequest;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\File;
 
 /**
  * Class UserCrudController
@@ -14,8 +16,12 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class UserCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation{
+        store as traitStore;
+    }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation{
+        update as traitUpdate;
+    }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -47,14 +53,33 @@ class UserCrudController extends CrudController
             'label' => "Type", // Table column heading
             'type' => 'Text'
           ]);
-
+          $this->crud->addColumn(['name' => 'active', 'label'=>'Active','type'     => 'closure',
+          'function' => function(User $entry) {
+              if ($entry->active==1) {
+                  return "Active";
+              } else if($entry->active==0){
+                  return "Inactive";
+              }
+          }]);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - $this->crud->column('price')->type('number');
          * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
+    
 
+    public function store()
+    {
+        $this->insertDataWithValidation();
+        return $this->traitStore();
+    }
+
+    public function update()
+    {
+        $this->insertDataWithValidation('update');
+        return $this->traitUpdate();
+    }
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -79,6 +104,16 @@ class UserCrudController extends CrudController
             ],
 
         ]);
+        $this->crud->addField([
+            'name'        => 'active',
+            'label'       => 'Activate',
+            'type'        => 'radio',
+            'options'     => [
+                0 => "Inactive",
+                1 => "Active"
+            ],
+
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -97,4 +132,27 @@ class UserCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+    public function insertDataWithValidation($update=null)
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+
+        /** @var \Illuminate\Http\Request $request */
+        $request = $this->crud->getRequest();
+        if(!empty($request->password)){
+            $password = bcrypt($request->password);
+            $request->request->set('password', $password);
+        }
+        if ($update == 'update') {
+            if(empty($request->password)){
+                $request->request->remove('password');
+            }
+        }
+        $this->crud->setRequest($request);
+        $this->crud->unsetValidation(); // Validation has already been run
+
+
+
+
+    }
+  
 }

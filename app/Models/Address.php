@@ -34,4 +34,11 @@ class Address extends Model
     public function images(){
         return $this->hasMany( Image::class );
     }
+    protected static function booted()
+    {
+        static::deleted(function ($address) {
+            if($address->images) $address->images()->delete();
+
+        });
+    }
 }

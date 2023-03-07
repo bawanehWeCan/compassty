@@ -18,7 +18,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use Notifiable;
     // use HasRoles;
-    protected $table = 'users'; 
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
          'phone',
          'type',
+         'active',
     ];
 
     /**
@@ -62,10 +63,12 @@ class User extends Authenticatable
     }
 
 
-    protected function password(): Attribute
+    protected static function booted()
     {
-        return Attribute::make(
-            set: fn ($value) => Hash::make($value),
-        );
+        static::deleted(function ($user) {
+            if($user->addresses) $user->addresses()->delete();
+            if($user->recent()->count()>0) $user->recent()->detach();
+
+        });
     }
 }

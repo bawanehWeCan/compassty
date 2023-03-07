@@ -29,6 +29,8 @@ use App\Http\Controllers\Api\PageController;
 
 
 
+Route::post('/user-reg', [AuthController::class, 'store']);
+
 Route::post('sociallogin', [AuthController::class, 'sociallogin']);
 
 Route::post('/otp-check', [AuthController::class, 'check']);
@@ -37,10 +39,16 @@ Route::post('/password-otp', [AuthController::class, 'password']);
 
 Route::post('change-password', [AuthController::class, 'changePassword']);
 
+Route::post('/otp-activate-check', [AuthController::class, 'checkPhone']);
+
+Route::post('delete-user/{id}', [AuthController::class, 'delete']);
+
 //Auth
 Route::middleware(['auth:api', 'changeLang'])->group(function () {
+    Route::post('/activate', [AuthController::class, 'activate']);
 
     Route::post('/user-update', [AuthController::class, 'updateProfile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
@@ -50,6 +58,9 @@ Route::middleware(['auth:api', 'changeLang'])->group(function () {
     Route::get('recent-used', [AddressController::class, 'recentAddresses']);
 
     Route::get('address/{code}', [AddressController::class, 'view']);
+
+    Route::get('notifications-view', [NotificationController::class, 'listView']);
+
 });
 
 
@@ -120,7 +131,6 @@ Route::middleware('changeLang')->group(function () {
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
-Route::post('/user-reg', [AuthController::class, 'store']);
 
 
 Route::post('/otb-check', [AuthController::class, 'check']);
@@ -182,6 +192,7 @@ Route::post('icon/edit/{id}', [IconController::class, 'edit']);
 Route::get('categories', [CategoryController::class, 'list']);
 Route::post('category-create', [CategoryController::class, 'save']);
 Route::get('category/{id}', [CategoryController::class, 'view']);
+Route::post('category-companies/{id}', [CategoryController::class, 'viewCompanies']);
 Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
 Route::post('category/edit/{id}', [CategoryController::class, 'edit']);
 

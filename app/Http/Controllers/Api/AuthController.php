@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
@@ -47,7 +48,12 @@ class AuthController extends Controller
 
 
 
-        if (Hash::check($user->password,$request->password)) {
+        if (!Auth::attempt(
+            $request->only([
+                'email',
+                'password',
+            ])
+        )) {
 
             return response()->json([
                 'status' => false,
@@ -75,7 +81,6 @@ class AuthController extends Controller
     public function store(UserRequest $request)
     {
         try {
-            DB::beginTransaction();
             $user = $this->userRepositry->save($request);
 
             // if ($request->has('image')) {
@@ -103,7 +108,6 @@ class AuthController extends Controller
 
             // curl_close($curl);
 
-            DB::commit();
             Auth::login($user);
 
             $accessToken = Auth::user()->createToken('authToken')->accessToken;
@@ -116,9 +120,8 @@ class AuthController extends Controller
                     'user' => UserResource::make(Auth::user()),
                 ]]);
             }
-        } catch (\Exception$e) {
-            dd($e);
-            DB::rollback();
+        } catch (\Exception $e) {
+            return $e;
             return $this->returnError('Sorry! Failed in creating user');
         }
     }
@@ -164,24 +167,20 @@ class AuthController extends Controller
     }
 
 
-    public function updatePassword(Request $request)
+    public function updatePassword(PasswordRequest $request)
     {
         $user = Auth::user();
-        $old_pw =$request->old_password;
-
-    //   if ($user->password == $old_pw)
-
-        if(Hash::check($old_pw, $user->password)){
 
 
-                $user->update([
-                    'password' => Hash::make($request->new_password),
+        if($user){
+
+            $user->update([
+                'password' => Hash::make($request->new_password),
                 ]);
 
             return $this->returnSuccessMessage('Password has been changed');
         }
 
-        return $this->returnError('Password not matched!');
     }
 
 
@@ -257,7 +256,7 @@ class AuthController extends Controller
 
     public function changePassword(PasswordChangeRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('phone', $request->phone)->first();
 
         if ($user) {
 
@@ -269,13 +268,12 @@ class AuthController extends Controller
             return $this->returnSuccessMessage('Password has been changed');
         }
 
-        return $this->returnError('Password not matched!');
+        return $this->returnError('Failed in changing password !');
     }
 
     public function updateProfile(ProfileUpdateRequest $request)
     {
         try {
-            DB::beginTransaction();
             // dd( Auth::user() );
             $user = Auth::user();
             if ($user) {
@@ -289,7 +287,9 @@ class AuthController extends Controller
                         return $this->returnError('The email address is already used!');
                     }
                 }
-
+                if (isset($request->password) && !empty($request->password)) {
+                    $request['password'] = bcrypt($request->password);
+                }
                 $this->userRepositry->edit($request, $user);
                 return $this->returnData('user', new UserResource($user), 'User updated successfully');
             }
@@ -300,7 +300,6 @@ class AuthController extends Controller
             //     $image = $this->userRepositry->insertImage($request->image, $user);
             // }
 
-            DB::commit();
             // unset($user->image);
 
             return $this->returnError('Sorry! Failed to find user');
@@ -312,5 +311,44 @@ class AuthController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        $user = User::find($id);
 
+        $user->delete();
+
+
+
+        return $this->returnSuccessMessage('Done!');
+    }
+
+    public function activate(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+
+            if ($user->phone == null) {
+                $user->update([
+                    'phone'=>$request->phone,
+                ]);
+            }
+            $user->update([
+                'active'=>"1"
+            ]);
+            return $this->returnSuccessMessage('User Activated');
+
+        }
+        return $this->returnError('Failed to activate user');
+    }
+
+
+
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user()->token();
+        $user->revoke();
+
+        return $this->returnSuccessMessage('Logged out succesfully!');
+    }
 }

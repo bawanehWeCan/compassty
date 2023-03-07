@@ -16,4 +16,10 @@ class Country extends Model
     public function cities(){
         return $this->hasMany(City::class);
     }
+    protected static function booted()
+    {
+        static::deleted(function ($country) {
+            if($country->cities) $country->cities()->delete();
+        });
+    }
 }

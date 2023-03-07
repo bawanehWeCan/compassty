@@ -65,19 +65,18 @@ class UserRepository extends AbstractRepository
 
     public function edit($data,$user)
     {
-
         $user->update($data->all());
 
 
-        $user->update($data->except([
-            'name',
-            'email',
-            'phone',
-            // 'step',
-            // 'active',
-            // 'image',
+        // $user->update($data->except([
+        //     'name',
+        //     'email',
+        //     'phone',
+        //     // 'step',
+        //     // 'active',
+        //     // 'image',
 
-        ]));
+        // ]));
 
         return $user->fresh();
 

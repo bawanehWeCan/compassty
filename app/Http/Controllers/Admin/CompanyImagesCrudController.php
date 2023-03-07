@@ -151,11 +151,5 @@ class CompanyImagesCrudController extends CrudController
 
 
     }
-    protected function setupDeleteOperation()
-    {
-        $image = Image::findOrFail(\Route::current()->parameter('id'));
-        if ($image) {
-            unlink($image->image);
-        }
-    }
+    
 }
